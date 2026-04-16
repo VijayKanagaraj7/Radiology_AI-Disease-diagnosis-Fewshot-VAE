@@ -209,7 +209,7 @@ radiology-fewshot-vae-diagnosis
 ## Installation
 
 Clone the repository:
-git clone https://github.com/PriyadarshiniSathishKumar/radiology-fewshot-vae-diagnosis
+git clone https://github.com/VijayKanagaraj7/Radiology_AI-Disease-diagnosis-Fewshot-VAE.git
 
 cd radiology-fewshot-vae-diagnosis
 

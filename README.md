@@ -1,224 +1,263 @@
-#  Radiology_AI-Disease-diagnosis---Fewshot-learning-with-VAE
+# Radiology Few-Shot VAE Diagnosis
 
-Hybrid **Generative AI + Few-Shot Learning** model for radiology disease classification using **VAE-based augmentation** and **ResNet-backed prototypical networks** under low-data conditions.
+Hybrid AI framework combining **Few-Shot Learning** and **Generative AI (Variational Autoencoders)** for radiology disease diagnosis under low-data scenarios.
 
----
-
-## 🔍 Overview
-
-This project focuses on improving medical image classification performance when very limited labeled training data is available — a common challenge in healthcare AI systems.
-
-Deep learning models in medical imaging usually require large annotated datasets, which are expensive and difficult to obtain. This project addresses that limitation by integrating:
-
-- **Few-Shot Learning (FSL)** – enables learning from very few labeled samples  
-- **Variational Autoencoders (VAE)** – generate synthetic medical images  
-
-The hybrid approach improves performance in **data-scarce environments**.
+This project focuses on improving medical image classification performance when **very limited labeled training data is available**, which is a common challenge in healthcare AI systems.
 
 ---
 
-## ⚙️ Key Features
+## Project Overview
 
-- Hybrid **VAE + Few-Shot Learning pipeline**  
-- **Prototypical Networks** with ResNet-18 backbone  
-- Synthetic image generation using **β-VAE**  
-- Radiology image preprocessing and normalization  
-- **Grad-CAM explainability** for disease localization  
-- Performance analytics and evaluation metrics  
-- Support for multiple radiology datasets  
+Deep learning models in medical imaging usually require **large annotated datasets**, which are expensive and difficult to obtain. This project addresses that limitation by integrating:
+
+- **Few-Shot Learning (FSL)** – enables learning from a very small number of labeled samples  
+- **Variational Autoencoders (VAE)** – generate synthetic medical images to augment training data  
+
+The hybrid approach improves model performance in **low-data medical environments**.
 
 ---
 
-## 🧠 System Architecture
+## Key Features
 
-```
+- Hybrid **VAE + Few-Shot Learning pipeline**
+- **Prototypical Networks with ResNet-18 backbone**
+- Synthetic medical image generation using **β-VAE**
+- Radiology image preprocessing and normalization
+- **Grad-CAM explainability** for disease localization
+- Performance analytics and evaluation metrics
+- Support for multiple radiology datasets
+
+---
+
+## System Architecture
 Radiology Image
-      ↓
-Image Preprocessing (resize, normalize, denoise)
-      ↓
-Variational Autoencoder (generate synthetic samples)
-      ↓
-Hybrid Dataset (real + synthetic samples)
-      ↓
-Few-Shot Learning Classifier (Prototypical Network)
-      ↓
+│
+▼
+Image Preprocessing
+(resize, normalize, denoise)
+│
+▼
+Variational Autoencoder
+(generate synthetic samples)
+│
+▼
+Hybrid Dataset
+(real + synthetic samples)
+│
+▼
+Few-Shot Learning Classifier
+(Prototypical Network)
+│
+▼
 Disease Prediction
-```
 
-📌 Grad-CAM is used for visualization and interpretability.
-
----
-
-## 📊 Datasets Used
-
-- **MedMNIST** – lightweight benchmark dataset  
-- **NIH Chest X-ray14** – 14 thoracic disease labels  
-- **COVID-19 Radiography Dataset** – COVID, pneumonia, normal  
-
-✔️ All images resized to **224×224**
+Grad-CAM Visualization
 
 ---
 
-## 🧩 Model Architecture
+## Datasets Used
+
+This project uses publicly available radiology datasets.
+
+### MedMNIST
+Lightweight benchmark dataset of medical images used for rapid experimentation.
+
+### NIH Chest X-ray14
+Large-scale dataset containing chest X-ray images with 14 thoracic disease labels.
+
+### COVID-19 Radiography Dataset
+Dataset containing COVID-19, viral pneumonia, and normal chest X-ray images.
+
+All images are standardized to **224×224 resolution** for training.
+
+---
+
+## Model Architecture
 
 ### Variational Autoencoder (VAE)
 
-- Encoder → Convolution layers  
-- Latent Space → Dimension = 128  
-- Decoder → Transposed convolution  
+Used for **synthetic data generation** and feature extraction.
 
-**Loss Function:**  
-`Reconstruction Loss + KL Divergence`
+**Encoder**
+- Convolutional layers
+- Feature compression
+
+**Latent Space**
+- Dimension: **128**
+
+**Decoder**
+- Transposed convolution layers
+- Image reconstruction
+
+Loss Function
+Loss = Reconstruction Loss + KL Divergence
 
 ---
 
 ### Few-Shot Learning Classifier
 
-- Model → Prototypical Networks  
-- Backbone → ResNet-18  
-- Training → Episodic learning  
+Classification is performed using **Prototypical Networks**.
+
+**Backbone Network**
+- ResNet-18 feature extractor
+
+**Training Strategy**
+- Episodic training with few-shot tasks
 
 Examples:
-- 5-way 1-shot  
-- 5-way 5-shot  
+5-way 1-shot
+5-way 5-shot
 
-Distance Metric: **Euclidean**
-
----
-
-## 🔄 Hybrid Training Strategy
-
-- Real Data: **70%**  
-- Synthetic Data: **30%**
-
-**Steps:**
-1. Train VAE  
-2. Generate synthetic images  
-3. Merge datasets  
-4. Train Few-Shot model  
+Distance metric used:
+Euclidean distance in embedding space
 
 ---
 
-## 📈 Experimental Results
+## Hybrid Training Strategy
 
-| Model                  | Accuracy | F1 Score | AUC |
-|-----------------------|----------|----------|-----|
-| Baseline Few-Shot     | 62%      | 0.58     | 0.61 |
-| Hybrid VAE + Few-Shot | 71%      | 0.66     | 0.72 |
+The training pipeline integrates both real and synthetic samples.
+Real Data: 70%
+Synthetic Data: 30%
 
-✅ **+9% improvement**
+Training steps:
 
----
-
-## 🎯 Few-Shot Performance
-
-| Scenario | Baseline | Hybrid |
-|----------|----------|--------|
-| 1-Shot   | 58%      | 67%    |
-| 5-Shot   | 66%      | 75%    |
+1. Train VAE on medical images  
+2. Generate synthetic samples  
+3. Combine synthetic and real dataset  
+4. Train Prototypical Network using episodic training  
 
 ---
 
-## 🧪 Synthetic Image Quality
+## Experimental Results
+
+| Model | Accuracy | F1 Score | AUC |
+|------|------|------|------|
+| Baseline Few-Shot | 62% | 0.58 | 0.61 |
+| Hybrid VAE + Few-Shot | 71% | 0.66 | 0.72 |
+
+**Improvement**
++9% accuracy improvement
+
+---
+
+## Few-Shot Performance
+
+| Scenario | Baseline | Hybrid Model |
+|------|------|------|
+| 1-Shot | 58% | 67% |
+| 5-Shot | 66% | 75% |
+
+The hybrid model performs significantly better in **low-data learning scenarios**.
+
+---
+
+## Synthetic Image Quality
 
 | Metric | Score |
-|--------|------|
-| SSIM   | 0.76 |
-| FID    | 23.4 |
-| PSNR   | 28.2 |
+|------|------|
+| SSIM | 0.76 |
+| FID | 23.4 |
+| PSNR | 28.2 |
 
-✔️ 90%+ samples passed quality checks  
-
----
-
-## 🔍 Explainable AI
-
-- Uses **Grad-CAM** for interpretability  
-- Highlights important regions in radiology images  
-
-**Outputs:**
-- Disease prediction  
-- Confidence score  
-- Attention heatmap  
+More than **90% of generated samples passed quality filtering**.
 
 ---
 
-## 📁 Project Structure
+## Explainable AI
 
-```
-radiology-fewshot-vae-diagnosis/
-│── data/
-│── models/
-│   ├── vae.py
-│   ├── prototypical_network.py
-│── training/
-│   ├── train_vae.py
-│   ├── train_fewshot.py
-│── evaluation/
-│   ├── evaluate_model.py
-│── utils/
-│   ├── preprocessing.py
-│   ├── metrics.py
-│── notebooks/
-│── app/
-│   ├── api.py
-│   ├── inference.py
-│── requirements.txt
-│── README.md
-```
+The system integrates **Grad-CAM visualization** to improve model interpretability.
+
+Grad-CAM highlights the **regions of the radiology image responsible for predictions**, enabling better understanding of the model’s diagnostic reasoning.
+
+Output includes:
+
+- Disease prediction
+- Confidence score
+- Attention heatmap
 
 ---
 
-## ⚡ Installation
+## Project Structure
+radiology-fewshot-vae-diagnosis
+│
+├── data
+├── models
+│ ├── vae.py
+│ ├── prototypical_network.py
+│
+├── training
+│ ├── train_vae.py
+│ ├── train_fewshot.py
+│
+├── evaluation
+│ ├── evaluate_model.py
+│
+├── utils
+│ ├── preprocessing.py
+│ ├── metrics.py
+│
+├── notebooks
+├── app
+│ ├── api.py
+│ ├── inference.py
+│
+├── requirements.txt
+└── README.md
 
-```bash
-git clone https://github.com/vijaykanagaraj7/Radiology_AI-Disease-diagnosis---Fewshot-learning-with-VAE.git
-cd Radiology_AI-Disease-diagnosis---Fewshot-learning-with-VAE
+---
+
+## Installation
+
+Clone the repository:
+git clone https://github.com/PriyadarshiniSathishKumar/radiology-fewshot-vae-diagnosis
+
+cd radiology-fewshot-vae-diagnosis
+
+Install dependencies:
 pip install -r requirements.txt
-```
 
 ---
 
-## 🚀 Training
+## Training
 
-```bash
+Train the VAE model:
 python train_vae.py
+
+Train the Few-Shot model:
 python train_fewshot.py
-```
 
 ---
 
-## 📊 Evaluation
+## Evaluation
 
-```bash
+Evaluate the trained hybrid model:
 python evaluate_model.py
-```
 
 ---
 
-## 🏥 Applications
+## Applications
 
-- AI-assisted radiology diagnosis  
-- Rare disease detection  
-- Medical image dataset augmentation  
-- Research in Few-Shot Learning & Generative AI  
-- Explainable AI in healthcare  
+This project can be used for:
 
----
-
-## 🔮 Future Work
-
-- Diffusion models for better image generation  
-- Multi-modal datasets (CT, MRI, X-ray)  
-- Large-scale clinical training  
-- Deployment as decision support system  
+- AI-assisted radiology diagnosis
+- Rare disease detection
+- Medical image dataset augmentation
+- Research in **Few-Shot Learning and Generative AI**
+- Explainable AI for healthcare systems
 
 ---
 
-## 👨‍💻 Authors
+## Future Work
 
-- Priyadarshini S  
-- Rishikumaran T  
-- Vijay K  
+- Diffusion models for higher quality synthetic images  
+- Multi-modal radiology datasets (CT, MRI, X-ray)  
+- Large-scale clinical dataset training  
+- Deployment as clinical decision support system  
 
 ---
+
+## Authors
+
+**Priyadarshini S**  
+**Rishikumaran T**  
+**Vijay K**
